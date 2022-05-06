@@ -138,36 +138,11 @@ class GUI:
         while True:
             try:
                 message = self.server.recv(1024).decode()
-
-                if str(message) == "FILE":
-                    file_name = self.server.recv(1024).decode()
-                    lenOfFile = self.server.recv(1024).decode()
-                    send_user = self.server.recv(1024).decode()
-
-                    if os.path.exists(file_name):
-                        os.remove(file_name)
-
-                    total = 0
-                    with open(file_name, 'wb') as file:
-                        while str(total) != lenOfFile:
-                            data = self.server.recv(1024)
-                            total = total + len(data)     
-                            file.write(data)
-                    
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.config(state = tk.NORMAL)
-                    self.textCons.insert(tk.END, "<" + str(send_user) + "> " + file_name + " Received\n\n")
-                    self.textCons.config(state = tk.DISABLED) 
-                    self.textCons.see(tk.END)
-
-                else:
-                    self.textCons.config(state=tk.DISABLED)
-                    self.textCons.config(state = tk.NORMAL)
-                    self.textCons.insert(tk.END, 
-                                    message+"\n\n") 
-
-                    self.textCons.config(state = tk.DISABLED) 
-                    self.textCons.see(tk.END)
+                self.textCons.config(state=tk.DISABLED)
+                self.textCons.config(state = tk.NORMAL)
+                self.textCons.insert(tk.END, message+"\n\n") 
+                self.textCons.config(state = tk.DISABLED) 
+                self.textCons.see(tk.END)
 
             except: 
                 print("An error occured!") 
